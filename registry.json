@@ -59,6 +59,20 @@
           "type": "registry:hook"
         }
       ]
+    },
+    {
+      "name": "action-button",
+      "type": "registry:component",
+      "title": "Action Button",
+      "description": "A button that executes a server action.",
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/action-button/action-button.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
+  
   ]
 }
