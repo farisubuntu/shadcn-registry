@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "action-button",
+  "type": "registry:component",
+  "title": "Action Button",
+  "description": "A button that executes a server action.",
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/action-button/action-button.tsx",
+      "content": "import * as React from \"react\";\nimport { DivideIcon as LucideIcon } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { Button, ButtonProps } from \"@/components/ui/button\";\nimport { ReloadIcon } from \"@radix-ui/react-icons\";\n\ntype IconType = typeof LucideIcon;\n\n// Define the shape of server action response\ninterface ActionResponse<T> {\n data?: T;\n error?: string;\n}\n\n// Define the props for our smart button\n\nexport interface ActionButtonProps<T> extends Omit<ButtonProps, \"onClick\"> {\n action: () => Promise<ActionResponse<T>>;\n icon?: IconType;\n onSuccess?: (data: T) => void;\n onError?: (error: string | any) => void;\n loadingText?: string;\n}\n\nexport function ActionButton<T>({\n action,\n onSuccess,\n onError,\n loadingText,\n icon: Icon,\n ...props\n}: ActionButtonProps<T>) {\n const [isLoading, setIsLoading] = React.useState(false);\n\n const handleClick = async () => {\n  try {\n   setIsLoading(true);\n   const response = await action();\n   if (response.error) {\n    onError?.(response.error);\n   }\n   if (response.data) {\n    onSuccess?.(response.data);\n   }\n\n   setIsLoading(false);\n  } catch (error) {\n   onError?.(error instanceof Error ? error.message : error);\n  } finally {\n   setIsLoading(false);\n  }\n };\n\n return (\n  <Button onClick={handleClick} disabled={isLoading} {...props}>\n   {isLoading ? (\n    <>\n     <ReloadIcon className=\"mr-2 h-4 w-4 animate-spin\" />\n     {loadingText || \"Loading...\"}\n    </>\n   ) : (\n    <>\n     {Icon && <Icon className=\"mr-2 h-4 w-4\" />}\n     {props.children}\n    </>\n   )}\n  </Button>\n );\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

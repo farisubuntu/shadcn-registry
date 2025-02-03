@@ -24,5 +24,3 @@ const simulateServerActionWithTime = async (t = 1) => {
   };
 }
 ```
-
-
