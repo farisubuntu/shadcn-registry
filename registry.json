@@ -66,6 +66,7 @@
       "title": "Action Button",
       "description": "A button that executes a server action.",
       "dependencies": ["@radix-ui/react-icons"],
+      "registryDependencies": ["button"],
       
       "files": [
         {
